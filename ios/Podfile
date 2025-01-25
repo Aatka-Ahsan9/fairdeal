@@ -24,12 +24,14 @@ target 'Fairdeal' do
   )
 
   post_install do |installer|
-    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+    # Dynamically set the NODE_BINARY path to the correct one
+    ENV['NODE_BINARY'] = `which node`.strip
+    
+    # Apply post-install configuration for React Native
     react_native_post_install(
       installer,
       config[:reactNativePath],
       :mac_catalyst_enabled => false,
-      # :ccache_enabled => true
     )
   end
 end
